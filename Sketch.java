@@ -1,36 +1,126 @@
 import processing.core.PApplet;
 
 public class Sketch extends PApplet {
-	
-	
-  /**
-   * Called once at the beginning of execution, put your size all in this method
-   */
-  public void settings() {
-	// put your size call here
-    size(400, 400);
-  }
 
-  /** 
-   * Called once at the beginning of execution.  Add initial set up
-   * values here i.e background, stroke, fill etc.
-   */
-  public void setup() {
-    background(210, 255, 173);
-  }
 
-  /**
-   * Called repeatedly, anything drawn to the screen goes here
-   */
-  public void draw() {
-	  
-	// sample code, delete this stuff
-    stroke(128);
-    line(150, 25, 270, 350);  
+  float[] circleY = new float[50];
 
-    stroke(255);
-    line(50, 125, 70, 50);  
-  }
+
+  float[] snowfall = new float[50];
+
+  float[] mousePositionsX = new float[25];
+
+
+  float[] mousePositionsY = new float[25];
+
+  int snowSpeed = 3;
+
+  int num = 25;
+
+  int index = 0;
   
-  // define other methods down here.
+  public void settings() {
+
+
+    size(400, 400);
+
+  }
+
+  public void setup() {
+
+
+    background(0);
+
+    for (int i = 0; i < 50; i+
+    +) {
+      circleY[i] = random(0, 400);
+    }
+    for (int i = 0; i < 50; i++) {
+
+
+      snowfall[i] = 5;
+
+    }
+  }
+
+  public void draw() {
+
+    background(0);
+
+    //Snow fall from the sky
+
+    for (int circleX = 0; circleX < 50; circleX++) {
+      
+
+      ellipse(circleX*8, circleY[circleX], 8, 8);
+    }
+  
+    for (int i = 0; i < 50; i++) {
+
+
+      circleY[i] += snowSpeed;
+
+      if (circleY[i] >= 400) {
+
+        circleY[i] = 0;
+
+
+        snowfall[i] += 5;
+      }
+    }
+    
+    //Snowpile
+    for (int i = 0; i < 50; i++) {
+
+
+      fill(255, 255, 255);
+
+      rect(i*8, 400-snowfall[i], 8, 400);
+
+
+    }
+
+    // Trail the snow leaves behind
+    noStroke();
+
+    mousePositionsX[index] = mouseX;
+
+
+
+    mousePositionsY[index] = mouseY;
+
+
+    index = (index + 1) % num;
+
+    for (int i = 0; i < 25; i++) {
+
+      int pos = (index + i) % num;
+
+
+      ellipse(mousePositionsX[pos], mousePositionsY[pos], i, i);
+    }
+
+  }
+
+  public void keyPressed() {
+
+
+    if (keyCode == DOWN) {
+
+
+      snowSpeed = 1;
+    }
+
+
+    if (keyCode == UP) {
+
+      snowSpeed = 5;
+    }
+  }
+
+  public void keyReleased() {
+    snowSpeed = 3;
+  }
 }
+
+
